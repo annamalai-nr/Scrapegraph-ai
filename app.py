@@ -13,32 +13,39 @@ load_dotenv()
 nest_asyncio.apply()
 
 # Default prompt
-DEFAULT_PROMPT = '''Extract all the contents from the webpage (do not miss even a single word). 
-1. Since there can be large number of words/sentences, chunk them. Each chunk should be semantically relevant (example: a paragraph, a bunch of sentences that talk about one topic, etc.). Each chunk should be at least 3 sentences long.
+DEFAULT_PROMPT = '''Extract all the content from the webpage without missing a single word.  
+1. Since there may be a large amount of text, divide it into chunks. Each chunk should be semantically relevant (for example, a paragraph or a group of sentences that discuss a single topic). Each chunk must contain at least 3 sentences.
 2. For each chunk, provide the following metadata:
-    a. Entities mentioned in the chunk
-    b. Topics discussed in the chunk
-    c. Sentiment (Positive, Negative, Neutral) of the chunk
-    d. Keywords that can help better searchability of the chunk
-    e. Search queries that the chunk can answer
-    f. If the chunk contains any images or tables, narrate in detail about them.
-    f. A contextual summary that situates this chunk within the overall document/webpage for the purposes of improving search retrieval of the chunk.
-3. Return everything in JSON format. The following is the schema for the JSON:
-    {
-        "chunks": [{"text": "...", 
-                    "metadata": {"entities": ["...", "..."], 
-                                 "topics": ["...", "..."], 
-                                 "sentiment": "...", 
-                                 "keywords": ["...", "..."], 
-                                 "search_queries": ["...", "..."],
-                                 "image_narration": "...",
-                                 "table_narration": "...",
-                                 "summary": "..."}}]
-    }
-4. Only return the JSON. Do not include any other text or comments or symbols (example: backticks(`))
-'''
+    - Entities mentioned in the chunk  
+    - Topics discussed in the chunk  
+    - Sentiment of the chunk (Positive, Negative, or Neutral)  
+    - Keywords to improve the chunk's searchability  
+    - Search queries that the chunk can answer  
+    - If the chunk contains any images or tables, provide a detailed description of them  
+    - A contextual summary that situates this chunk within the overall document/webpage for the purposes of enhancing search retrieval.
 
-# ... previous imports and DEFAULT_PROMPT remain the same ...
+3. Return everything in JSON format according to the following schema:
+
+    {
+      "chunks": [
+        {
+          "text": "...",
+          "metadata": {
+            "entities": ["...", "..."],
+            "topics": ["...", "..."],
+            "sentiment": "...",
+            "keywords": ["...", "..."],
+            "search_queries": ["...", "..."],
+            "image_narration": "...",
+            "table_narration": "...",
+            "summary": "..."
+          }
+        }
+      ]
+    }
+
+4. Only return the JSON. Do not include any other text, comments, or symbols (such as backticks).
+'''
 
 def main():
     st.title("Web Content Scraper")
