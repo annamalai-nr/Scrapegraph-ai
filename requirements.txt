@@ -26,3 +26,5 @@ ipykernel
 jupyter
 jupyterlab
 pandas
+nest-asyncio
+scrapegraphai
