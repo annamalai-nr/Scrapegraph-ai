@@ -3,19 +3,40 @@ from scrapegraphai.nodes.fetch_node import FetchNode
 from scrapegraphai.nodes.parse_node import ParseNode
 import time
 import nest_asyncio
+import subprocess
+import os
 
 # Enable nested event loops
 nest_asyncio.apply()
 
+def install_playwright_browsers():
+    try:
+        # Check if playwright is installed
+        if not os.path.exists("/usr/bin/chromium"):
+            st.info("Installing required browsers...")
+            subprocess.run(["playwright", "install", "chromium"], check=True)
+            st.success("Browsers installed successfully!")
+    except Exception as e:
+        st.error(f"Failed to install browsers: {str(e)}")
+        st.info("Try running 'playwright install' manually")
+
 def create_nodes():
     # FetchNode configuration
     fetch_node_config = {
-        "headless": False,
+        "headless": True,  # Changed to True for deployment
         "verbose": True,
         "use_playwright": True,
         "playwright_options": {
             "java_script_enabled": True,
-            "cookies": []
+            "cookies": [],
+            "browser_type": "chromium",  # Explicitly specify browser
+            "launch_options": {
+                "args": [
+                    "--disable-dev-shm-usage",
+                    "--no-sandbox",
+                    "--disable-setuid-sandbox"
+                ]
+            }
         }
     }
     
@@ -40,6 +61,7 @@ def create_nodes():
     )
     
     return fetch_node, parse_node
+
 
 def scrape_url(url, fetch_node, parse_node):
     timings = {}
