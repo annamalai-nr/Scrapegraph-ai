@@ -28,3 +28,5 @@ jupyterlab
 pandas
 nest-asyncio
 scrapegraphai
+scrapfly-sdk
+qdrant-client
